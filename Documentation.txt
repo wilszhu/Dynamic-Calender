@@ -3,7 +3,7 @@ Dynamic Calender Brainstorm
 By: Wilson Zhu
 By: Albert Zheng
 By: Ethan Morris
-
+By: Henry Yang
 - First Page
  - Content Feed from upcoming events
 - Second Page
