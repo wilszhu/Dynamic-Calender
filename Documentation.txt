@@ -1,5 +1,7 @@
 Dynamic Calender Brainstorm
 
+By: Wilson Zhu
+
 - First Page
  - Content Feed from upcoming events
 - Second Page
