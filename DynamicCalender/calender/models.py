@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.db import models
 import datetime
 from django.utils import timezone
@@ -35,7 +36,19 @@ class Events(models.Model):
     #The description of the event
     description=models.CharField(max_length=500)
     #The category of the event
-    
+    CATEGORY_OPTIONS=(
+        ("a","Academics"),
+        ("s","Sports"),
+        ("e","Entertainment"),
+        ("w","Work"),
+        ("fam","Family"),
+        ("sg","Self-growth"),
+        ("fri","Friend"),
+        ("shop","Shopping"),
+        ("h","Health"),
+        ("t","Travel")
+    )
+    selectedCategory=models.CharField(max_length=4,choices=CATEGORY_OPTIONS,blank=False,null=False)
     #assignedDate #The time scheduled for the event
     assignedDate=models.DateTimeField()
     def __str__(self):
