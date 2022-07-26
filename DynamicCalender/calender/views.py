@@ -9,3 +9,16 @@ def calendar_page(request):
 
 def wellness(request):
     return render(request, 'calendar/templates/wellness.html')
+
+def login_page(request):
+
+
+
+
+
+    return render(request, 'calender/templates/login.html')
+
+def home_page(request):
+
+    return render(request, 'calendar/tempates/home.html')
+
