@@ -6,5 +6,4 @@ urlpatterns = [
     path('feed/', views.feed_page, name='feed'),
     path('calendar/', views.calendar_page, name = 'calendar'),
     path('wellness/', views.wellness, name = 'wellness'),
-    path('wellness/', views.home, name = 'home')
 ]
