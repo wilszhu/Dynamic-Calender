@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from .models import Events, Calender
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+from .models import Events, Calender
+from .forms import EventForm, CalendarForm
 
 # Create your views here.
 def feed_page(request):
@@ -53,3 +55,28 @@ def register_page(request):
 def logout_page(request):
     logout(request)
     return render(request, 'calendar/templates/login.html')
+
+def add_event(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('calendar.html')
+    else:
+        form = EventForm()
+    return render(request, 'calendar/templates/add_event.html', {'form': form})
+
+def add_calendar(request):
+    if request.method == 'POST':
+        form = CalendarForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('calendar.html')
+    else:
+        form = CalendarForm()
+    return render(request, 'calendar/templates/add_calendar.html', {'form': form})
+
+def display_events(request):
+    if request.method == 'GET':
+        events = Events.objects.filter(calender__user=request.user, start__gte=datetime.now())
+    return render(request, 'calendar/templates/display_events.html', {'events': events})
