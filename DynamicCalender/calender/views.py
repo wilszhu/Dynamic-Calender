@@ -8,16 +8,16 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def feed_page(request):
-    return render(request, 'calender/templates/feed.html')
+    return render(request, 'feed.html')
 
 def calendar_page(request):
-    return render(request, 'calendar/templates/calendar.html')
+    return render(request, 'calendar.html')
 
 def wellness(request):
-    return render(request, 'calendar/templates/wellness.html')
+    return render(request, 'wellness.html')
 
 def home(request):
-    return render(request, 'calendar/templates/home.html')
+    return render(request, 'home.html')
 
 def login_page(request):
     if request.method == 'POST':
