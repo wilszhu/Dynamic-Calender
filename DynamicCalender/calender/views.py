@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Events, Calender
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def feed_page(request):
@@ -19,16 +21,20 @@ def home(request):
 
 def login_page(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return render(request, 'calendar/templates/home.html')
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            if user is not None:
+                login(request, user)
+                return redirect('home.html')
+            else:
+                messages.error(request, 'Invalid username or password')
         else:
-            return render(request, 'calendar/templates/login.html')
+            messages.error(request, 'Invalid username or password')
     else:
-        return render(request, 'calendar/templates/login.html')
+        form = AuthenticationForm()
+    context = {'form': form}
+    return render(request, 'login.html', context)
 
 def register_page(request):
     if request.method == 'POST':
