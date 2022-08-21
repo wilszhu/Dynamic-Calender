@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>User: {{ request.user }}</h1>
+  <p>
+    {% csrf_token %}
+    <table>
+    {% for event in events %}
+    <p>{{ event }}</p>
+    {% endfor %}
+    </table>
+  <p>
+{% endblock %}

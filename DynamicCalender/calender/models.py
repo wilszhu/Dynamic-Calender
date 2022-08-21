@@ -21,6 +21,8 @@ class Calender(models.Model):
         ordering = ['-created_at']
 
 class Events(models.Model):
+    class Meta:
+        fields = ('start', 'end', 'title')
     #The name of event
     eventName=models.CharField(max_length=200)
     #Calender that the event belongs to

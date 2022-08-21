@@ -4,22 +4,26 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
+from datetime import datetime
 
 from .models import Events, Calender
 from .forms import EventForm, CalendarForm
 
 # Create your views here.
 def feed_page(request):
-    return render(request, 'feed.html')
+    return render(request, 'calendar/feed.html')
 
 def calendar_page(request):
-    return render(request, 'calendar.html')
+    return render(request, 'calendar/calendar.html')
 
 def wellness(request):
-    return render(request, 'wellness.html')
+    return render(request, 'calendar/wellness.html')
 
 def home(request):
-    return render(request, 'home.html')
+    calenders = Calender.objects.filter(user=request.user)
+    context = {"calenders": calenders}
+    return render(request, 'calendar/home.html', context)
 
 def login_page(request):
     if request.method == 'POST':
@@ -28,7 +32,7 @@ def login_page(request):
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user is not None:
                 login(request, user)
-                return redirect('home.html')
+                return redirect('home')
             else:
                 messages.error(request, 'Invalid username or password')
         else:
@@ -36,7 +40,7 @@ def login_page(request):
     else:
         form = AuthenticationForm()
     context = {'form': form}
-    return render(request, 'login.html', context)
+    return render(request, 'calendar/login.html', context)
 
 def register_page(request):
     if request.method == 'POST':
@@ -47,36 +51,40 @@ def register_page(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return render(request, 'calendar/templates/home.html')
+            return render(request, 'home')
     else:
         form = UserCreationForm()
-    return render(request, 'calendar/templates/register.html', {'form': form})
+    return render(request, 'calendar/register.html', {'form': form})
 
 def logout_page(request):
     logout(request)
-    return render(request, 'calendar/templates/login.html')
+    return render(request, 'calendar/login.html')
 
 def add_event(request):
+    current_user = request.user
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('calendar.html')
+            return redirect('home')
     else:
         form = EventForm()
-    return render(request, 'calendar/templates/add_event.html', {'form': form})
+    return render(request, 'calendar/add_event.html', {'form': form, 'current_user': current_user.id})
 
 def add_calendar(request):
     if request.method == 'POST':
         form = CalendarForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('calendar.html')
+            return redirect('home')
     else:
         form = CalendarForm()
-    return render(request, 'calendar/templates/add_calendar.html', {'form': form})
+    return render(request, 'calendar/add_calendar.html', {'form': form})
 
 def display_events(request):
-    if request.method == 'GET':
-        events = Events.objects.filter(calender__user=request.user, start__gte=datetime.now())
-    return render(request, 'calendar/templates/display_events.html', {'events': events})
+    if request.method == 'POST':
+        pk = request.POST.get("events")
+        calender = Calender.objects.get(pk=pk)
+        events = Events.objects.filter(calender=calender)
+    context = {'events': events}
+    return render(request, 'calendar/display_events.html', context)

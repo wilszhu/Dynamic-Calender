@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<title>Home</title>
+<meta name="description" content="Wellness page">
+</head>
+<body>
+<h1>Home page</h1>
+
+<form action="/add_calendar/" method="POST">
+    {% csrf_token %}
+    <label for="add_calendar">Add Calendar</label>
+    <button type="submit" name="add_calendar">Add Calendar</button>
+</form>
+
+<form action="/add_event/" method="POST">
+    {% csrf_token %}
+    <label for="add_event">Add events</label>
+    <button type="submit" name="add_event">Add events</button>
+</form>
+
+// have select down
+// Select element (for loop over all calendars i have)
+// pass in calendars (list of all calendars) as context
+// value should be calendar id
+
+<form action="/display_events/" method="POST">
+    {% csrf_token %}
+    <label for="display_events">Choose a calendar to display events</label>
+    <select id="events" name="events">
+        {% for calender in calenders %}
+            <option value={{calender.id}}>{{calender}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit">
+</form>
+
+</body>
+</html>
