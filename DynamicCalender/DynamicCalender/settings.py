@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "calender.apps.CalenderConfig",
+    "webScrape.apps.WebscrapeConfig"
 ]
 
 MIDDLEWARE = [
