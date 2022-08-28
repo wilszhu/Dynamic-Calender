@@ -4,9 +4,7 @@
   <h1>User: {{ current_user }}</h1>
   <form action="" method="post">
     {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
+    {% bootstrap_form form %}
     <input type="submit" value="Submit">
   </form>
 {% endblock %}

@@ -1,11 +1,6 @@
-<!doctype html>
-<html>
-<head>
-<title>Home</title>
-<meta name="description" content="Wellness page">
-</head>
-<body>
-<h1>Home page</h1>
+{% extends "base.html" %}
+
+{% block content %}
 
 <form action="/add_calendar/" method="POST">
     {% csrf_token %}
@@ -35,5 +30,4 @@
     <input type="submit">
 </form>
 
-</body>
-</html>
+{% endblock %}
