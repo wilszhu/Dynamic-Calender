@@ -1,16 +1,13 @@
-{% extends 'base.html' %}  
-  
-{% block content %}  
-  
-<div>  
-      
-    <h1>Register Here</h1>  
-  
-         <form method="post">  
-             {% csrf_token %}  
-             {% bootstrap_form form %}
-            <input type="submit" value="Submit">
-         </form>  
-     </div>  
-  
-{% endblock content %}  
+{% extends 'base.html' %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+
+    <form role="form" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
+    </form>
+
+{% endblock %}
