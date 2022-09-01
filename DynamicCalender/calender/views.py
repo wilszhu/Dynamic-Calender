@@ -20,6 +20,7 @@ def calendar_page(request):
 def wellness(request):
     return render(request, 'calendar/wellness.html')
 
+@login_required(login_url='login')
 def home(request):
     calenders = Calender.objects.filter(user=request.user)
     context = {"calenders": calenders}
